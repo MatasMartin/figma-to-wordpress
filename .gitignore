@@ -1,0 +1,9 @@
+# Local planning / design docs — never published
+.planning/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+node_modules/
+__pycache__/
+*.pyc
