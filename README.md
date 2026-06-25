@@ -22,7 +22,9 @@ The result: pages converge in 1–2 measure cycles instead of 5–8 eyeball-the-
 
 ## Demo
 
-> ▶️ **Before/after demo GIF coming soon.** (Figma frame on the left, the measured-and-matched live WordPress page on the right.)
+![Figma values read from the node, built, then verified by measuring the rendered DOM — real dom-measure.js output](assets/demo.png)
+
+*A naive AI eyeballs the screenshot and guesses (left). This skill reads the exact values from the Figma node (middle), then **proves** the build matches by measuring the rendered DOM (right) — those are real `dom-measure.js` numbers, not a mockup.*
 
 ```
   Figma node          read exact values         build on WP            measure back

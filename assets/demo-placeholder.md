@@ -1,9 +1,11 @@
-# Demo asset (placeholder)
+# Demo assets
 
-The README currently shows a text diagram of the method and a "demo GIF coming soon" line. This file tracks how to produce the **real** before/after demo when you're ready — and why it isn't here yet.
+`demo.png` (shipped, shown in the README) is a **real proof image**: the values in its right-hand column are genuine `dom-measure.js` output measured against a demo component built to exact "from-Figma" values — not a mockup. It demonstrates the method (guess ✗ → read the node ✓ → measure to verify ✓) with no client data.
 
-## Why there's no GIF yet
-The honest proof of this skill is real client work, which can't be published. So the demo must be recorded on a **throwaway, non-client** Figma file + a scratch local WordPress site. Don't screen-record any client build.
+This file tracks the optional **upgrade**: a live-action before/after GIF of Claude Code actually doing it.
+
+## Why the GIF needs you (not Claude)
+A screen recording of the live session needs a recorder running on your machine, and a **throwaway, non-client** Figma file + scratch local WordPress site. Don't screen-record any client build.
 
 ## How to make the real demo (≈30–60 min)
 1. **Throwaway Figma frame.** One marketing section (hero or a 3-card row) with a few deliberately specific values — e.g. radius 8px, 13px Medium, a brand hex. The "specific values" are the point: they're what eyeballing gets wrong.
