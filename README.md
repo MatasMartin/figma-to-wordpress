@@ -20,7 +20,7 @@ Three rules, and the whole skill is built around them:
 
 The result: pages converge in 1–2 measure cycles instead of 5–8 eyeball-the-screenshot cycles, and they're right the first time far more often.
 
-## Demo
+## How it works
 
 ![Figma values read from the node, built, then verified by measuring the rendered DOM — real dom-measure.js output](assets/demo.png)
 
