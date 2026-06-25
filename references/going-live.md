@@ -50,6 +50,6 @@ A repeatable LocalWP → DirectAdmin launch playbook. Order matters; each gotcha
 ## Traps that cost real time
 - **LocalWP can hold MULTIPLE sites' DBs in one mysql instance, each DB named `local`.** `ls run/*/mysql/mysqld.sock | head -1` may grab the WRONG site → you read another project's pages and draw false conclusions. ALWAYS match the socket by content first: loop the sockets and `SELECT COUNT(*) … WHERE post_title IN ('<known live page titles>')`; use the socket that returns hits. (Field note: grabbing the wrong site's DB this way — wrong prefix, wrong pages — is an easy and real mistake.)
 - **Test forms/email on the LIVE URL, not localhost.** A "form is broken" report turned out to be the user submitting on the local site. Confirm the URL bar before debugging.
-- The bundled `mysql` needs `--default-character-set=utf8mb4` for any write touching Lithuanian text, or you get mojibake (`SlapukÅ³`).
+- The bundled `mysql` needs `--default-character-set=utf8mb4` for any write touching non-ASCII / accented text, or you get mojibake (e.g. `Ä…` where an accented character should be).
 
 ---
