@@ -1,27 +1,27 @@
-<!-- Part of the figma-to-wordpress skill — loaded on demand. The decision spine lives in ../SKILL.md; this file is reference detail, read when relevant. -->
+<!-- Part of the figma-to-wordpress skill - loaded on demand. The decision spine lives in ../SKILL.md; this file is reference detail, read when relevant. -->
 
 ## Figma REST API (asset extraction + connectivity)
 
 The Figma MCP is excellent for spec extraction (CSS, layout, node tree) but has two weaknesses:
-1. `get_screenshot` always returns PNG — even for vector icons that should be SVG.
-2. No batched asset export — one node per call.
+1. `get_screenshot` always returns PNG - even for vector icons that should be SVG.
+2. No batched asset export - one node per call.
 
 The Figma REST API fills both gaps. Use it whenever the page needs more than ~3 icons, any photographic assets, or you want a deterministic token-extraction step.
 
-This section is **WordPress-editor-agnostic** — the ingest works the same for Divi, Elementor, Bricks, Gutenberg/FSE, classic themes. Only the *output* (where tokens/assets land in the target site) differs per editor.
+This section is **WordPress-editor-agnostic** - the ingest works the same for Divi, Elementor, Bricks, Gutenberg/FSE, classic themes. Only the *output* (where tokens/assets land in the target site) differs per editor.
 
 ### Session start: locate an existing token (do this BEFORE asking the user)
 
-A fresh Claude session won't inherit env vars from the user's interactive shell — Bash tool calls run in a non-login, non-interactive Bash that does NOT source `~/.zshrc` / `~/.bashrc` / `.env` files automatically. So `echo $FIGMA_PAT` will look empty even when the user has it set up. **Don't conclude "no token" from that alone.** Run the checks below first.
+A fresh Claude session won't inherit env vars from the user's interactive shell - Bash tool calls run in a non-login, non-interactive Bash that does NOT source `~/.zshrc` / `~/.bashrc` / `.env` files automatically. So `echo $FIGMA_PAT` will look empty even when the user has it set up. **Don't conclude "no token" from that alone.** Run the checks below first.
 
 ```bash
 # 1. Already in current shell?
 [ -n "$FIGMA_PAT" ] && echo "in-env (length ${#FIGMA_PAT})"
 
-# 2. Stored in ~/.zshrc? (most common on macOS — user's interactive shell is zsh by default)
+# 2. Stored in ~/.zshrc? (most common on macOS - user's interactive shell is zsh by default)
 grep -l "FIGMA_PAT" ~/.zshrc ~/.zprofile ~/.bashrc ~/.bash_profile ~/.profile 2>/dev/null
 
-# 3. In a project .env? (search from likely roots — adjust as needed)
+# 3. In a project .env? (search from likely roots - adjust as needed)
 grep -rln "FIGMA_PAT" \
   ~/"Local Sites" \
   ~/Documents \
@@ -63,7 +63,7 @@ curl -s -H "X-Figma-Token: $FIGMA_PAT" \
 
 If this returns the file name and page list, the token works. If 401/403/404, fix that before touching anything else (see error table below).
 
-### Batch SVG export — replaces `get_screenshot` for vector icons
+### Batch SVG export - replaces `get_screenshot` for vector icons
 
 ```bash
 # Comma-separated node IDs of vector layers (chevrons, logos, illustrations, etc.)
@@ -83,7 +83,7 @@ Rules:
 - Sanitize filenames after download (designers name layers things like `Chevron down / 24`).
 - Prefer inline SVG in HTML/shortcodes (one fewer HTTP request, works in any WP editor's Code/HTML block).
 
-### Batch image-fill download — product photos, hero images, food photography
+### Batch image-fill download - product photos, hero images, food photography
 
 When a designer drops a photo into Figma, it's stored as an "image fill" referenced by hash. The REST API returns every photo in the file at original resolution in one call:
 
@@ -96,14 +96,14 @@ curl -s -H "X-Figma-Token: $FIGMA_PAT" \
     done
 ```
 
-To map each downloaded image back to the Figma layer it came from, cross-reference the file's node tree — image fills have an `imageRef` field that matches these hash keys.
+To map each downloaded image back to the Figma layer it came from, cross-reference the file's node tree - image fills have an `imageRef` field that matches these hash keys.
 
 ### Error table
 
 | Status | Cause | Fix |
 |---|---|---|
 | 401 (first call this session) | Missing or malformed token header | Confirm `X-Figma-Token` header is set and `$FIGMA_PAT` is exported in current shell |
-| 401 (was working, now failing) | **Token expired** — Figma PATs can have expiry dates (7 / 30 / 90 days / no expiry) | Tell the user the token expired and they need to rotate it: Figma → Settings → Security → Personal access tokens → revoke old, generate new with same scopes, update `~/.zshrc` or `.env` |
+| 401 (was working, now failing) | **Token expired** - Figma PATs can have expiry dates (7 / 30 / 90 days / no expiry) | Tell the user the token expired and they need to rotate it: Figma → Settings → Security → Personal access tokens → revoke old, generate new with same scopes, update `~/.zshrc` or `.env` |
 | 403 | Token lacks file access | Regenerate token with `file_content:read` scope; confirm the Figma account owns or was shared the file |
 | 404 | Wrong fileKey | Re-extract fileKey from the Figma URL (`figma.com/design/<KEY>/...`) |
 | 429 | Rate limit | Honor `Retry-After` header; back off ~30s |
@@ -111,7 +111,7 @@ To map each downloaded image back to the Figma layer it came from, cross-referen
 
 ### Token rotation
 
-Figma personal access tokens can be set with expiry dates (7 / 30 / 90 days / no expiry). If the user picked an expiry, when this skill encounters a 401 on a previously-working setup, **assume token expiry first** before debugging anything else. Walk the user through revoking the old one and generating a new one with the same scopes (`file_content:read` + `file_metadata:read`). The skill should never silently retry — token rotation is a human-in-the-loop step.
+Figma personal access tokens can be set with expiry dates (7 / 30 / 90 days / no expiry). If the user picked an expiry, when this skill encounters a 401 on a previously-working setup, **assume token expiry first** before debugging anything else. Walk the user through revoking the old one and generating a new one with the same scopes (`file_content:read` + `file_metadata:read`). The skill should never silently retry - token rotation is a human-in-the-loop step.
 
 ### When to use MCP vs REST API
 

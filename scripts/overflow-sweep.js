@@ -1,7 +1,7 @@
-// overflow-sweep.js — the one INTENT-INDEPENDENT hard gate. Loads a URL at several
+// overflow-sweep.js - the one INTENT-INDEPENDENT hard gate. Loads a URL at several
 // viewport widths and reports horizontal overflow (scrollWidth > clientWidth) plus the
 // widest offending elements. Unlike layout/visual deltas (design-intent-dependent, human-
-// judged), overflow is always a bug — safe to auto-fail a build on.
+// judged), overflow is always a bug - safe to auto-fail a build on.
 //
 // Usage:  node overflow-sweep.js <url> [widths]
 //   e.g.  node overflow-sweep.js http://localhost:PORT/ 390,430,768,1440,1920

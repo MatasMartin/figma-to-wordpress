@@ -1,4 +1,4 @@
-// dom-measure.js — measure rendered elements on a live page (the "numbers > screenshots"
+// dom-measure.js - measure rendered elements on a live page (the "numbers > screenshots"
 // truth-teller). For each CSS selector, prints the bounding box + key computed styles at a
 // given viewport width. Use to diff a build against Figma specs, or to debug layout.
 //
@@ -6,7 +6,7 @@
 //   e.g.  node dom-measure.js http://localhost:PORT/your-page/ 1440 ".page-content" "h1"
 // Needs node + the chromium-headless-shell (auto-resolved by lib-playwright.js; it
 // auto-installs playwright-core to ~/.cache/fig2wp on first run). Run from this scripts/ dir,
-// or from anywhere — it require()s lib-playwright by absolute path.
+// or from anywhere - it require()s lib-playwright by absolute path.
 const { launch } = require(require('path').join(__dirname, 'lib-playwright.js'));
 
 (async () => {

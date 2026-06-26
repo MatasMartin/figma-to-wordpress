@@ -1,4 +1,4 @@
-// lib-playwright.js — shared, self-healing Playwright loader for the skill's JS tools.
+// lib-playwright.js - shared, self-healing Playwright loader for the skill's JS tools.
 // Centralizes the two things that broke repeatedly in real builds:
 //   1. finding the chromium-headless-shell binary (no Chrome.app / no sudo needed)
 //   2. resolving playwright-core (auto-installs to a stable cache dir on first use,
@@ -47,7 +47,7 @@ function requirePlaywrightCore() {
   try { return require('playwright-core'); } catch {}
   // self-heal: install once into the stable cache dir
   fs.mkdirSync(cacheDir, { recursive: true });
-  process.stderr.write('playwright-core not found — installing once into ~/.cache/fig2wp …\n');
+  process.stderr.write('playwright-core not found - installing once into ~/.cache/fig2wp …\n');
   execSync('npm i playwright-core --no-save --no-audit --no-fund --silent', { cwd: cacheDir, stdio: 'inherit' });
   return require(path.join(cacheDir, 'node_modules', 'playwright-core'));
 }

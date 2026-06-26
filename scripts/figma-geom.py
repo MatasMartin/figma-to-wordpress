@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-figma-geom.py — extract frame-relative geometry of a Figma page region via REST.
+figma-geom.py - extract frame-relative geometry of a Figma page region via REST.
 
 Outputs clean JSON [{text, name, x, y, w, h, icon}] for every meaningful node whose
-absoluteBoundingBox falls inside a target frame's box — handles designs that are
+absoluteBoundingBox falls inside a target frame's box - handles designs that are
 NOT cleanly nested (loose siblings on the canvas), which `get_metadata`'s frame-
 children call misses. Uses REST `absoluteBoundingBox` (already absolute) so there's
 NO parent-offset tree-walking. `text` = the node's own characters or its first text

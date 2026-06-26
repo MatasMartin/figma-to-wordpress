@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-figma-build-diff.py — compare a built WP page to its Figma design, in NUMBERS.
+figma-build-diff.py - compare a built WP page to its Figma design, in NUMBERS.
 
 Outputs px deltas per text-matched element (NOT verdicts): "build left X / Figma Y
 / Δ". At the Figma frame width it's a direct match; at wider widths it reports
 content symmetry (left vs right gutter) since Figma has no wide reference. This is
-the Figma-anchored layout diff — ground truth is Figma, so no false positives on
+the Figma-anchored layout diff - ground truth is Figma, so no false positives on
 intentional insets.
 
 Requires: FIGMA_PAT in env; CHS = chrome-headless-shell path; playwright-core
@@ -30,7 +30,7 @@ def norm(t):
 # --- Figma elements (at frame width) ---
 fg = json.loads(subprocess.check_output(["python3", os.path.join(HERE, "figma-geom.py"), KEY, PAGE, FRAME], env={**os.environ}))
 FW = fg["frame"]["w"]
-# group ALL figma instances by text (keep duplicates — resolve by nearest position)
+# group ALL figma instances by text (keep duplicates - resolve by nearest position)
 from collections import defaultdict
 fgroups = defaultdict(list)
 for e in fg["elements"]:
@@ -43,8 +43,8 @@ def dom_at(width):
     out = subprocess.check_output(["node", os.path.join(HERE, "dom-geom.js"), URL, str(width)], env={**os.environ})
     return json.loads(out)
 
-print(f"# Figma-anchored layout diff — {URL}")
-print(f"# Figma frame width = {FW}px; matched by text. Δ = build − Figma (px). NUMBERS, not verdicts — confirm against Figma.\n")
+print(f"# Figma-anchored layout diff - {URL}")
+print(f"# Figma frame width = {FW}px; matched by text. Δ = build − Figma (px). NUMBERS, not verdicts - confirm against Figma.\n")
 
 for width in WIDTHS:
     dom = dom_at(width)
@@ -59,7 +59,7 @@ for width in WIDTHS:
         print(f"  ⚠ HORIZONTAL OVERFLOW: scrollW {dom['scrollW']} > {width}")
 
     if width == FW:
-        # direct Figma match — for each build element, the NEAREST same-text Figma node
+        # direct Figma match - for each build element, the NEAREST same-text Figma node
         rows = []
         for k, d in dmap.items():
             cands = fgroups.get(k)
@@ -82,5 +82,5 @@ for width in WIDTHS:
         if ls:
             lg, rg = min(ls), min(rs)
             print(f"  content left gutter {lg}px vs right gutter {rg}px  →  {'ASYMMETRIC Δ'+str(abs(lg-rg)) if abs(lg-rg) > 16 else 'symmetric'}")
-            print(f"  (Figma has no {width} frame — this is an internal symmetry/fill check, not a Figma match)")
+            print(f"  (Figma has no {width} frame - this is an internal symmetry/fill check, not a Figma match)")
     print()

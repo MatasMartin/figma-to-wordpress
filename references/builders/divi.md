@@ -6,13 +6,13 @@ How the method maps to Divi: pull exact values per Figma node, then emit `[et_pb
 
 ## Where Divi stores things
 - **Page layout** = `[et_pb_*]` shortcodes in `wp_posts.post_content`. Safe to generate and inject.
-- **Theme Options Custom CSS** lives in a dedicated `wp_posts` row (its ID varies per install — find it, don't hardcode). Page-scoped responsive CSS is stored as `body.page-id-N ...` (see gotcha #56 in `references/gotchas-general.md` — `!important` does NOT beat that higher specificity).
+- **Theme Options Custom CSS** lives in a dedicated `wp_posts` row (its ID varies per install - find it, don't hardcode). Page-scoped responsive CSS is stored as `body.page-id-N ...` (see gotcha #56 in `references/gotchas-general.md` - `!important` does NOT beat that higher specificity).
 - **Caches:** after DB edits, clear Divi's static CSS cache (Divi → Theme Options → Builder → Advanced → Static CSS, or delete `wp-content/et-cache/`) or your change stays invisible.
-- **Inline `<script>` survives** `wpautop` inside `[et_pb_code]` (keep it one line, wrap in an IIFE) — unlocks JS UI without a plugin. Inline `<style>` does NOT survive; put CSS in Theme Options.
+- **Inline `<script>` survives** `wpautop` inside `[et_pb_code]` (keep it one line, wrap in an IIFE) - unlocks JS UI without a plugin. Inline `<style>` does NOT survive; put CSS in Theme Options.
 
 ## Field notes
-- **Use relative asset URLs** (`/wp-content/...`), never `http://sitename.local` — LocalWP's random port may not resolve.
-- **Custom button icons:** layer a `background-image` via `custom_css_main_element` and hide Divi's default arrow with `custom_css_after="display:none !important;"`. Never collapse into a `background:` shorthand — it nukes the icon (gotcha #20).
+- **Use relative asset URLs** (`/wp-content/...`), never `http://sitename.local` - LocalWP's random port may not resolve.
+- **Custom button icons:** layer a `background-image` via `custom_css_main_element` and hide Divi's default arrow with `custom_css_after="display:none !important;"`. Never collapse into a `background:` shorthand - it nukes the icon (gotcha #20).
 - **Map module needs no API key** if you use a plain Google Maps `<iframe>` inside `[et_pb_code]` instead of Divi's Map module.
 - **Find a nav menu's `menu_id`** (its term_id) before placing `[et_pb_menu]`.
 
